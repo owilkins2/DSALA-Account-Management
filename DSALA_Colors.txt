@@ -1,0 +1,3 @@
+Dark Blue: #08346f
+Yellow: #f3c96a
+Light Blue: #01a4b4

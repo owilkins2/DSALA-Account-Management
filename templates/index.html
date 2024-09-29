@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Management</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+
+</head>
+<body>
+
+    <header>
+        <div class="header-container">
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" class="logo">
+            <h1>Account Management</h1>
+        </div>
+    </header>
+
+    <div>
+        <button onclick="window.location.href='/create-client'">Create a New Client</button>
+        <button onclick="window.location.href='/edit-client'">Edit an Existing Client</button>
+    </div>
+
+</body>
+</html>

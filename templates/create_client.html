@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create a New Client</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>Create a New Client</h1>
+    <form action="/submit" method="POST">
+        <label for="first_name">Name:</label><br>
+        <input type="text" id="first_name" name="first_name" required><br>
+
+        <label for="last_name">Name:</label><br>
+        <input type="text" id="last_name" name="last_name" required><br>
+
+        <label for="email">Email:</label><br>
+        <input type="email" id="email" name="email" required><br><br>
+
+        <label for="dob">Date of Birth:</label>
+        <input type="date" id="dob" name="dob" required><br><br>
+
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>
