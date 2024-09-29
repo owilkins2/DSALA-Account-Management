@@ -30,8 +30,13 @@ def home():
 def create_client():
     return render_template('create_client.html')
 
-@app.route('/edit-client')
-def edit_client():
+@app.route('/edit-client-enter-id')
+def edit_client_enter_id():
+    return render_template('edit_client_enter_id.html')
+
+@app.route('/entered_id')
+def entered_id():
+    print("hello")
     return render_template('edit_client.html')
 
 def generate_unique_id(existing_ids):

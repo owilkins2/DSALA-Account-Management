@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create a New Client</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>Find Existing Client</h1>
+    <form action="/entered_id">
+        <label for="ID">ID Number:</label><br>
+        <input type="number" id="ID" name="ID" required><br>
+
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>
