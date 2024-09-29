@@ -9,8 +9,12 @@ load_dotenv()
 
 app = Flask(__name__)
 
-# Connect to Google Sheets
+# Load credentials path from environment variable
 credentials_path = os.getenv("GOOGLE_CREDENTIALS")
+if not credentials_path:
+    raise ValueError("Google credentials path not found. Please set the GOOGLE_CREDENTIALS environment variable.")
+
+# Connect to Google Sheets
 scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
 creds = ServiceAccountCredentials.from_json_keyfile_name(credentials_path, scope)
 client = gspread.authorize(creds)
