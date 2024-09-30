@@ -7,13 +7,25 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-    <h1>Edit an Existing Client</h1>
-    <form action="/edit" method="POST">
-        <label for="email">Enter Email:</label><br>
-        <input type="email" id="email" name="email" required><br>
-        <label for="name">New Name:</label><br>
-        <input type="text" id="name" name="name" required><br><br>
-        <input type="submit" value="Edit">
-    </form>
+    <h1>Edit the Information for {{first_name}} {{last_name}}</h1>
+    ID Number: {{ID}}
+
+<form action="/edit" method="POST">
+    <input type="hidden" name="ID" value="{{ID}}">
+
+    <label for="first_name">First Name:</label><br>
+    <input type="text" id="first_name" name="first_name" value={{first_name}} required><br>
+
+    <label for="last_name">Last Name:</label><br>
+    <input type="text" id="last_name" name="last_name" value={{last_name}} required><br>
+
+    <label for="email">Email:</label><br>
+    <input type="email" id="email" name="email" value={{email}} required><br><br>
+
+    <label for="dob">Date of Birth:</label>
+    <input type="date" id="dob" name="dob" value={{dob}} required><br><br>
+
+    <button type="submit">Submit</button>
+</form>
 </body>
 </html>
