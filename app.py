@@ -19,20 +19,34 @@ scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/au
 creds = ServiceAccountCredentials.from_json_keyfile_name(credentials_path, scope)
 client = gspread.authorize(creds)
 
-# Open your Google Sheet
 DS_Clients = client.open("DSALA Client Database").sheet1
+Connections_Sheet = client.open("DSALA Client Database").get_worksheet(1)
 
 @app.route('/')
 def home():
     return render_template('index.html')
 
+@app.route('/find-client')
+def find_client():
+    return render_template('find_client.html')
+
 @app.route('/create-client')
 def create_client():
     return render_template('create_client.html')
 
-@app.route('/edit-client-enter-id')
-def edit_client_enter_id():
-    return render_template('edit_client_enter_id.html', )
+@app.route('/create-connection')
+def create_connection():
+    ID = request.args.get('ID')
+    first_name = request.args.get('first_name')
+    last_name = request.args.get('last_name')
+    return render_template('create_connection.html', ID=ID, first_name=first_name, last_name=last_name)
+
+
+@app.route('/test')
+def test():
+    test_list = ["test 1", "test 2", "test 3"]
+    return render_template('test.html', list=test_list)
+
 
 @app.route('/entered_id', methods=['POST'])
 def entered_id():
@@ -89,6 +103,18 @@ def submit():
     DS_Clients.append_row([unique_id, first_name, last_name, email, dob])
     return redirect('/success')
 
+
+@app.route('/submit-connection', methods=['POST'])
+def submit_connection():
+    ID = request.form['ID']
+    first_name = request.form['first_name']
+    last_name = request.form['last_name']
+    email = request.form['email']
+    relationship = request.form['relationship']
+
+    Connections_Sheet.append_row([ID, first_name, last_name, email, relationship])
+    return redirect('/success')
+
 @app.route('/edit', methods=['POST'])
 def edit():
         ID = request.form['ID']
@@ -119,3 +145,10 @@ def success():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
+
+
+
+
+#    all_connections = Connections_Sheet.get_all_records()
+#    associated_connections = [connection in all_connections if (int(connection["DS Client's ID"]) - int(ID) == 0))]

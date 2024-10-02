@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create a Connection</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>Create a Contact for {{first_name}} {{last_name}}</h1>
+    <form action="/submit-connection" method="POST">
+        <input type="hidden" name="ID" value="{{ID}}">
+
+        <label for="first_name">First Name:</label><br>
+        <input type="text" id="first_name" name="first_name" required><br>
+
+        <label for="last_name">Last Name:</label><br>
+        <input type="text" id="last_name" name="last_name" required><br>
+
+        <label for="email">Email:</label><br>
+        <input type="email" id="email" name="email" required><br><br>
+
+        <label for="relationship">Relationship to {{first_name}} {{last_name}}:</label><br>
+        <input type="relationship" id="relationship" name="relationship" required><br><br>
+
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>

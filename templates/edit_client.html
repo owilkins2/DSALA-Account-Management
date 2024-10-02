@@ -10,22 +10,23 @@
     <h1>Edit the Information for {{first_name}} {{last_name}}</h1>
     ID Number: {{ID}}
 
-<form action="/edit" method="POST">
-    <input type="hidden" name="ID" value="{{ID}}">
+    <form action="/edit" method="POST">
+        <input type="hidden" name="ID" value="{{ID}}">
 
-    <label for="first_name">First Name:</label><br>
-    <input type="text" id="first_name" name="first_name" value={{first_name}} required><br>
+        <label for="first_name">First Name:</label><br>
+        <input type="text" id="first_name" name="first_name" value={{first_name}} required><br>
 
-    <label for="last_name">Last Name:</label><br>
-    <input type="text" id="last_name" name="last_name" value={{last_name}} required><br>
+        <label for="last_name">Last Name:</label><br>
+        <input type="text" id="last_name" name="last_name" value={{last_name}} required><br>
 
-    <label for="email">Email:</label><br>
-    <input type="email" id="email" name="email" value={{email}} required><br><br>
+        <label for="email">Email:</label><br>
+        <input type="email" id="email" name="email" value={{email}} required><br><br>
 
-    <label for="dob">Date of Birth:</label>
-    <input type="date" id="dob" name="dob" value={{dob}} required><br><br>
+        <label for="dob">Date of Birth:</label>
+        <input type="date" id="dob" name="dob" value={{dob}} required><br><br>
 
-    <button type="submit">Submit</button>
-</form>
+        <button type="submit">Submit</button>
+    </form>
+    <button onclick="window.location.href='/create-connection?ID={{ID}}&first_name={{first_name}}&last_name={{last_name}}'">Add Contact</button>
 </body>
 </html>
