@@ -10,8 +10,9 @@
     <h1>Manage {{info[0]}}'s Account</h1>
     ID Number: {{ID}}
 
-    <form action="/edit" method="POST">
+    <form action="/edit-contact" method="POST">
         <input type="hidden" name="ID" value="{{ID}}">
+        <input type="hidden" name="index" value="{{index}}">
 
         <label for="first_name">First Name:</label><br>
         <input type="text" id="first_name" name="first_name" value={{info[0]}} required><br>
@@ -22,21 +23,11 @@
         <label for="email">Email:</label><br>
         <input type="email" id="email" name="email" value={{info[2]}} required><br><br>
 
-        <label for="dob">Date of Birth:</label>
-        <input type="date" id="dob" name="dob" value={{info[3]}} required><br><br>
+        <label for="relationship">Relationship:</label><br>
+        <input type="text" id="relationship" name="relationship" value={{info[3]}} required><br><br>
 
         <button type="submit">Submit</button>
     </form>
 
-    Existing Contacts:
-
-    {% for contact in contacts%}
-    <li>
-        {{contact[0]}}
-        <button onclick="window.location.href='/edit-contact-button?ID={{ID}}&index={{contact[1]}}'">Edit This Contact</button>
-    </li>
-    {% endfor %}
-
-    <button onclick="window.location.href='/create-contact?ID={{ID}}&first_name={{info[0]}}'">Add Contact</button>
 </body>
 </html>
