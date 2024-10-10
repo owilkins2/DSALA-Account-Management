@@ -1,0 +1,4 @@
+first_name,First Name,text
+last_name,Last Name,text
+email,Email,email
+dob,Date of Birth,date
