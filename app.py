@@ -142,8 +142,15 @@ def submit():
     # If user doesn't exist, generate a unique random ID
     ID = generate_unique_id(existing_ids)
     information.append(ID)
+
     for field in fields:
-        information.append(request.form[field[0]])
+            if field[2] == "dropdown":
+                if request.form[field[0]] == "Other":
+                    information.append(request.form.get(f"{field[0]}_other"))
+                else:
+                    information.append(request.form[field[0]])
+            else:
+                information.append(request.form[field[0]])
 
     DS_Clients.append_row(information)
     return render_template('edit_client.html', ID=ID, info=get_client_info(ID), contacts=get_contacts(ID), client_fields=get_client_fields())
@@ -169,7 +176,13 @@ def submit_connection():
     information.append(new_index)
 
     for field in fields:
-        information.append(request.form[field[0]])
+            if field[2] == "dropdown":
+                if request.form[field[0]] == "Other":
+                    information.append(request.form.get(f"{field[0]}_other"))
+                else:
+                    information.append(request.form[field[0]])
+            else:
+                information.append(request.form[field[0]])
 
     Contacts_Sheet.append_row(information)
     return render_template('edit_client.html', ID=ID, info=get_client_info(ID), contacts=get_contacts(ID), client_fields=get_client_fields())
@@ -183,10 +196,14 @@ def edit():
         ID = request.form['ID']
         information.append(ID)
 
-        print(request.form)  # This will show you all the submitted form data
         for field in fields:
-            print(field[0])
-            information.append(request.form[field[0]])
+            if field[2] == "dropdown":
+                if request.form[field[0]] == "Other":
+                    information.append(request.form.get(f"{field[0]}_other"))
+                else:
+                    information.append(request.form[field[0]])
+            else:
+                information.append(request.form[field[0]])
 
         existing_users = DS_Clients.get_all_records()
         row_to_update = None
@@ -216,7 +233,14 @@ def edit_contact():
         information.append(index)
 
         for field in fields:
-            information.append(request.form[field[0]])
+            if field[2] == "dropdown":
+                if request.form[field[0]] == "Other":
+                    information.append(request.form.get(f"{field[0]}_other"))
+                else:
+                    information.append(request.form[field[0]])
+            else:
+                information.append(request.form[field[0]])
+            
 
         existing_contacts = Contacts_Sheet.get_all_records()
         row_to_update = None

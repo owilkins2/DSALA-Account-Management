@@ -10,31 +10,61 @@
     <h1>Edit {{info[0]}}'s Information</h1>
     ID Number: {{ID}}
 
-<form action="/edit-contact" method="POST">
-    <input type="hidden" name="ID" value="{{ID}}">
-    <input type="hidden" name="index" value="{{index}}">
+    <form action="/edit-contact" method="POST">
+        <input type="hidden" name="ID" value="{{ ID }}">
+        <input type="hidden" name="index" value="{{ index }}">
 
-    {% for field in contact_fields %}
-    {% if field[2]!="dropdown" %}
-    <label for="{{field[0]}}">{{field[1]}}</label><br>
-    <input type={{field[2]}} id={{field[0]}} name={{field[0]}} value={{info[loop.index0]}} required><br>
-    {% endif %}
-    {% if field[2]=="dropdown"%}
-    {% set outer_index = loop.index0 %}
-    <label for="{{field[0]}}">{{field[1]}}:</label><br>
-    <select name="{{ field[0] }}" id="{{ field[0] }}">
-        {% for i in range(field|length - 3) %}
-        <option value="{{ field[i+3] }}" {% if field[i+3]==info[outer_index] %}selected{% endif %}>
-            {{ field[i+3] }}
-        </option>
+        {% for field in contact_fields %}
+        {% if field[2] != "dropdown" %}
+        <label for="{{ field[0] }}">{{ field[1] }}</label><br>
+        <input type="{{ field[2] }}" id="{{ field[0] }}" name="{{ field[0] }}" value="{{ info[loop.index0] }}" required><br>
+        {% endif %}
+
+        {% if field[2] == "dropdown" %}
+        {% set outer_index = loop.index0 %}
+        <label for="{{ field[0] }}">{{ field[1] }}:</label><br>
+
+        {# Determine if the current value is in the dropdown options #}
+        {% set is_value_in_dropdown = info[outer_index] in field[3:] %}
+
+        <select name="{{ field[0] }}" id="{{ field[0] }}" onchange="checkOther(this, '{{ field[0] }}')">
+            {% for i in range(field|length - 3) %}
+            <option value="{{ field[i+3] }}"
+                    {% if (field[i+3] == info[outer_index]) or (not is_value_in_dropdown and field[i+3] == 'Other' ) %}selected{% endif %}>
+                {{ field[i+3] }}
+            </option>
+            {% endfor %}
+        </select>
+
+        {# Show the "Other" input box if the value is unmatched #}
+        <input type="text" id="{{ field[0] }}_other" name="{{ field[0] }}_other"
+               placeholder="Specify Other"
+               style="display: {% if not is_value_in_dropdown %}block{% else %}none{% endif %};"
+               value="{% if not is_value_in_dropdown %}{{ info[outer_index] }}{% endif %}">
+        {% endif %}
         {% endfor %}
-    </select>
 
-    {% endif %}
-    {% endfor %}
+        <button type="submit">Submit</button>
+    </form>
 
-    <button type="submit">Submit</button>
-</form>
+    <script>function checkOther(selectElement, fieldName) {
+            var selectedValue = selectElement.value;
+            var otherField = document.getElementById(fieldName + '_other');
+
+            if (selectedValue === 'Other') {
+                otherField.style.display = 'block';
+            } else {
+                otherField.style.display = 'none';
+            }
+        }
+
+        window.onload = function () {
+            var dropdowns = document.querySelectorAll('select');
+            dropdowns.forEach(function (dropdown) {
+                checkOther(dropdown, dropdown.id);
+            });
+        };</script>
+
 
 </body>
 </html>
