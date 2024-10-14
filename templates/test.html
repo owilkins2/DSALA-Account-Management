@@ -8,6 +8,8 @@
 <body>
     <h1>test</h1>
 
+    <button onclick="myFunction()">Try it</button>
+
     <form action="/submit" method="POST">
         {% for field in client_fields %}
         {% if field[2]!="dropdown" %}
@@ -28,4 +30,9 @@
     </form>
 
 </body>
+
+<script>function myFunction() {
+        alert("Hello! I am an alert box!");
+    }</script>
+
 </html>

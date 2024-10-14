@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Management</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+
+</head>
+<body>
+
+    Your information has been saved.
+
+    <form action="/message_acknowledged" method="POST">
+        <input type="hidden" name="ID" value="{{ID}}">
+        <button class="button-primary" type="submit">OK</button>
+    </form>
+
+
+</body>
+</html>

@@ -9,6 +9,7 @@
 </head>
 <body>
 
+
     <header>
         <div class="header-container">
             <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" class="logo">
@@ -16,11 +17,18 @@
         </div>
     </header>
 
+
+
+    Welcome to the DSALA Account Management System. Here you can create an account for a loved one with down syndrome by providing us information about
+    them and their family members. This will allow us to provide you with personalized resources and to connect you with others who are in similar situations.
+    Use one of the buttons below to get started. 
+
     <div>
-        <button onclick="window.location.href='/create-client'">New Client</button>
-        <button onclick="window.location.href='/find-client'">Existing Client</button>
-        <button onclick="window.location.href='/test'">test</button>
+        <button class="button-primary" onclick="window.location.href='/create-client'">New Client</button>
+        <button class="button-primary" onclick="window.location.href='/find-client'">Existing Client</button>
     </div>
+
+
 
 </body>
 </html>

@@ -9,6 +9,12 @@
 <body>
 
     <h1>Create a New Client</h1>
+
+    Fill out all of the below fields with respect to the person who has down syndrome. You will be able to add information about yourself and other family
+    members/connections later.
+    <br>
+    <br>
+
     <form action="/submit" method="POST">
         {% for field in client_fields %}
         {% if field[2]!="dropdown" %}
@@ -34,7 +40,7 @@
         {% endfor %}
 
 
-        <button type="submit">Submit</button>
+        <button class="button-primary" type="submit">Submit</button>
     </form>
 
     <script>function checkOther(selectElement, fieldName) {
@@ -52,8 +58,7 @@
             dropdowns.forEach(function (dropdown) {
                 checkOther(dropdown, dropdown.id);
             });
-        };
-    </script>
+        };</script>
 
 </body>
 </html>

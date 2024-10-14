@@ -5,10 +5,20 @@ from oauth2client.service_account import ServiceAccountCredentials
 import os
 from dotenv import load_dotenv
 import csv
+from flask_mail import Mail, Message
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+from flask import Flask, render_template_string, flash, redirect, url_for
+from datetime import datetime
+
 
 load_dotenv()
 
 app = Flask(__name__)
+
+app.secret_key = os.urandom(24)  # Generates a random secret key
+
 
 # Load credentials path from environment variable
 credentials_path = os.getenv("GOOGLE_CREDENTIALS")
@@ -22,6 +32,33 @@ client = gspread.authorize(creds)
 
 DS_Clients = client.open("DSALA Client Database").sheet1
 Contacts_Sheet = client.open("DSALA Client Database").get_worksheet(1)
+
+def send_email(receiver_emails, subject, body):
+    try:
+
+        sender_email = "dsala.acct.management@gmail.com"
+        
+        smtp_server = "smtp.gmail.com"
+        smtp_port = 587 
+        smtp_username = "dsala.acct.management@gmail.com"
+        smtp_password = "soyg gxxk pnhj rkac"
+
+        msg = MIMEMultipart()
+        msg["From"] = sender_email
+        msg["To"] = ", ".join(receiver_emails) 
+        msg["Subject"] = subject
+        msg.attach(MIMEText(body, "plain"))
+
+        server = smtplib.SMTP(smtp_server, smtp_port)
+        server.starttls()
+        server.login(smtp_username, smtp_password)
+        text = msg.as_string()
+        server.sendmail(sender_email, receiver_emails, text)
+        server.quit()
+
+        return "Message sent successfully!"
+    except Exception as e:
+        return f"Failed to send email: {str(e)}"
 
 def get_client_fields():
     client_fields = []
@@ -47,9 +84,17 @@ def get_contacts(ID):
         print(int(contact['Index']))
     for contact in all_contacts:
         if int(contact["DS Client's ID"]) - int(ID) == 0:
-            contacts.append([contact['First Name'], contact['Index']])
+            contacts.append([contact['Index'], contact['First Name'], contact['Last Name'], contact['Relationship']])
             print("hello")
     return contacts
+
+def get_client_info_1(ID):
+    clients = DS_Clients.get_all_records()
+    client = None
+    for c in clients:
+        if c['ID'] == ID:
+            client = c
+    return [c['First Name'], c['Last Name'], c['Email']]
 
 def get_client_info(ID):
     fields = get_client_fields()
@@ -135,13 +180,11 @@ def submit():
     existing_users = DS_Clients.get_all_records()
     existing_ids = [user['ID'] for user in existing_users if 'ID' in user]
 
-#    for i, user in enumerate(existing_users):
-#        if user['Email'] == email:
-#            return "this email is already associated with an existing client"
 
     # If user doesn't exist, generate a unique random ID
     ID = generate_unique_id(existing_ids)
     information.append(ID)
+    information.append(datetime.today().strftime('%Y-%m-%d'))
 
     for field in fields:
             if field[2] == "dropdown":
@@ -152,8 +195,24 @@ def submit():
             else:
                 information.append(request.form[field[0]])
 
+    email = request.form["email"]
+    first_name = request.form["first_name"]
+    last_name = request.form["last_name"]
+
+    for i, user in enumerate(existing_users):
+        if user['Email'] == email:
+            return "this email is already associated with an existing client"
+
     DS_Clients.append_row(information)
-    return render_template('edit_client.html', ID=ID, info=get_client_info(ID), contacts=get_contacts(ID), client_fields=get_client_fields())
+    email_message =(
+         "This email is to confirm that a new DSALA account has been created for " + first_name + " " + last_name +
+        ". The ID number for this account is " + str(ID) + ". Save this number for your records, as you will need it in order to make changes to your account in the future. "
+        + "If you have not done so already, please return to our account management website and add as contacts any family members, friends, or other people who are involved"
+        + " in caring for " + first_name + ", or would like to receive informational emails.\n\nThank You,\nDSALA"
+    )
+    result = send_email([email], "New DSALA Client Created", email_message)
+    return render_template('message.html', ID=ID)
+ #   return result
 
 
 @app.route('/submit-contact', methods=['POST'])
@@ -167,7 +226,7 @@ def submit_connection():
     existing_contacts = get_contacts(ID)
     indexes = []
     for contact in existing_contacts:
-        indexes.append(int(contact[1]))
+        indexes.append(int(contact[0]))
 
     new_index = 0
     if len(indexes) > 0:
@@ -184,8 +243,20 @@ def submit_connection():
             else:
                 information.append(request.form[field[0]])
 
+    email = request.form["email"]
+    first_name = request.form["first_name"]
+    last_name = request.form["last_name"]
+    client_first_name = get_client_info_1(ID)[0]
+    client_last_name = get_client_info_1(ID)[1]
+    client_email = get_client_info_1(ID)[2]
+
     Contacts_Sheet.append_row(information)
-    return render_template('edit_client.html', ID=ID, info=get_client_info(ID), contacts=get_contacts(ID), client_fields=get_client_fields())
+    email_message =(
+         "This email is to confirm that a new contact has been created for " + first_name + " " + last_name + ", associated with the client " +
+        client_first_name + " " + client_last_name +", with ID Number " + ID + ".\n\nThank You,\nDSALA"
+    )
+    result = send_email([email, client_email], "New Contact Added", email_message)
+    return render_template('message.html', ID=ID)
 
 
 @app.route('/edit', methods=['POST'])
@@ -195,6 +266,14 @@ def edit():
 
         ID = request.form['ID']
         information.append(ID)
+
+        date_created = ""
+        clients = DS_Clients.get_all_records()
+        for client in clients:
+            if int(client['ID']) - int(ID) == 0:
+                print("found")
+                date_created = client["Date Created"]
+        information.append(date_created)
 
         for field in fields:
             if field[2] == "dropdown":
@@ -217,9 +296,14 @@ def edit():
             end_column = chr(ord(start_column) + len(information) - 1)
        
             DS_Clients.update(f'{start_column}{row_to_update}:{end_column}{row_to_update}', [information])
-            return render_template('edit_client.html', ID=ID, info=get_client_info(ID), contacts=get_contacts(ID), client_fields=get_client_fields())
-        else:
-            return "User not found."
+            flash('Form submitted successfully!')
+            return render_template('message.html', ID=ID)
+
+
+@app.route('/message_acknowledged', methods=['POST'])
+def message_acknowledged():
+    ID = request.form['ID']
+    return render_template('edit_client.html', ID=ID, info=get_client_info(ID), contacts=get_contacts(ID), client_fields=get_client_fields())
 
 
 @app.route('/edit-contact', methods=['POST'])
@@ -254,7 +338,7 @@ def edit_contact():
             end_column = chr(ord(start_column) + len(information) - 1)
        
             Contacts_Sheet.update(f'{start_column}{row_to_update}:{end_column}{row_to_update}', [information])
-            return render_template('edit_client.html', ID=ID, info=get_client_info(ID), contacts=get_contacts(ID), client_fields=get_client_fields())
+            return render_template('message.html', ID=ID)
         else:
             return "User not found."
 
@@ -272,3 +356,4 @@ if __name__ == "__main__":
 
 #    all_connections = Connections_Sheet.get_all_records()
 #    associated_connections = [connection in all_connections if (int(connection["DS Client's ID"]) - int(ID) == 0))]
+

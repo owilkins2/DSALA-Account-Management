@@ -30,7 +30,7 @@
         <select name="{{ field[0] }}" id="{{ field[0] }}" onchange="checkOther(this, '{{ field[0] }}')">
             {% for i in range(field|length - 3) %}
             <option value="{{ field[i+3] }}"
-                    {% if (field[i+3] == info[outer_index]) or (not is_value_in_dropdown and field[i+3] == 'Other' ) %}selected{% endif %}>
+                    {% if (field[i+3]==info[outer_index]) or (not is_value_in_dropdown and field[i+3]=='Other' ) %}selected{% endif %}>
                 {{ field[i+3] }}
             </option>
             {% endfor %}
@@ -44,7 +44,7 @@
         {% endif %}
         {% endfor %}
 
-        <button type="submit">Submit</button>
+        <button class="button-primary" type="submit">Save Changes</button>
     </form>
 
     <script>function checkOther(selectElement, fieldName) {
