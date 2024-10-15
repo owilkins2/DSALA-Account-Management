@@ -1,4 +1,19 @@
-first_name,First Name,text
-last_name,Last Name,text
-email,Email,email
-dob,Date of Birth,date
+first_name,First Name,text,Y
+last_name,Last Name,text,Y
+suffix,Suffix,text,N
+preferred_name,Preferred Name,text,N
+email,Email,email,Y
+phone,Phone Number,tel,Y
+dob,Date of Birth,date,Y
+ethnicity,Ethnicity,dropdown,,American Indian or Alaska Native,Asian,Black or African American,Hispanic or Latino,Native Hawaiian or Other Pacific Islander,White,Other
+gender,Gender,dropdown,,Male,Female,Other
+preferred_language,Preferred Language,dropdown,,English,Spanish,Other
+address1,Address Line 1,text,Y
+address2,Address Line 2,text,N
+city,City,text,Y
+state,State,dropdown,,AL,AK,AZ,AR,CA,CO,CT,DE,FL,GA,HI,ID,IL,IN,IA,KS,KY,LA,ME,MD,MA,MI,MN,MS,MO,MT,NE,NV,NH,NJ,NM,NY,NC,ND,OH,OK,OR,PA,RI,SC,SD,TN,TX,UT,VT,VA,WA,WV,WI,WY
+zipcode,Zipcode,number,Y
+birth_hospital,Birth Hospital,text,N
+birth_city,Birth City,text,N
+birth_state,Birth State,dropdown,,AL,AK,AZ,AR,CA,CO,CT,DE,FL,GA,HI,ID,IL,IN,IA,KS,KY,LA,ME,MD,MA,MI,MN,MS,MO,MT,NE,NV,NH,NJ,NM,NY,NC,ND,OH,OK,OR,PA,RI,SC,SD,TN,TX,UT,VT,VA,WA,WV,WI,WY
+notes,Notes,notes

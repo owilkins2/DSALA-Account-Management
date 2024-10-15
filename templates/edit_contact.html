@@ -8,21 +8,33 @@
 </head>
 <body>
     <h1>Edit {{info[0]}}'s Information</h1>
+    <i>Fields marked with <span style="color: #f3c96a">*</span> are mandatory.</i>
+    <br />
+    <br />
     ID Number: {{ID}}
-
+    <br />
     <form action="/edit-contact" method="POST">
         <input type="hidden" name="ID" value="{{ ID }}">
         <input type="hidden" name="index" value="{{ index }}">
 
+        {% set count = 0 %}
         {% for field in contact_fields %}
+        {% set count = count + 1 %}
         {% if field[2] != "dropdown" %}
-        <label for="{{ field[0] }}">{{ field[1] }}</label><br>
-        <input type="{{ field[2] }}" id="{{ field[0] }}" name="{{ field[0] }}" value="{{ info[loop.index0] }}" required><br>
+            
+            {% if field[3] == 'Y' %}
+                <label for="{{ field[0] }}">{{ field[1] }}<span style="color: #f3c96a">*</span></label><br>
+                <input type="{{ field[2] }}" id="{{ field[0] }}" name="{{ field[0] }}" value="{{ info[loop.index0] }}" required><br>
+            {% endif %}
+            {% if field[3] == 'N' %}
+                <label for="{{ field[0] }}">{{ field[1] }}</label><br>
+                <input type="{{ field[2] }}" id="{{ field[0] }}" name="{{ field[0] }}" value="{{ info[loop.index0] }}"><br>
+            {% endif %}
         {% endif %}
 
         {% if field[2] == "dropdown" %}
         {% set outer_index = loop.index0 %}
-        <label for="{{ field[0] }}">{{ field[1] }}:</label><br>
+        <label for="{{ field[0] }}">{{ field[1] }}<span style="color: #f3c96a">*</span></label><br>
 
         {# Determine if the current value is in the dropdown options #}
         {% set is_value_in_dropdown = info[outer_index] in field[3:] %}
@@ -35,7 +47,7 @@
             </option>
             {% endfor %}
         </select>
-
+        <br />
         {# Show the "Other" input box if the value is unmatched #}
         <input type="text" id="{{ field[0] }}_other" name="{{ field[0] }}_other"
                placeholder="Specify Other"
@@ -44,6 +56,12 @@
         {% endif %}
         {% endfor %}
 
+        <p><label for="notes">Notes</label></p>
+
+        <textarea id="notes" name="notes" rows="4" cols="50">
+{{info[count - 1]}}
+        </textarea>
+        <br />
         <button class="button-primary" type="submit">Save Changes</button>
     </form>
 

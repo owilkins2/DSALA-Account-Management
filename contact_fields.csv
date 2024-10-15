@@ -1,4 +1,12 @@
-first_name,First Name,text
-last_name,Last Name,text
-email,Email,email
-relationship,Relationship,dropdown,Mother,Father,Brother,Sister,Grandparent,Friend
+first_name,First Name,text,Y
+last_name,Last Name,text,Y
+email,Email,email,Y
+phone,Phone Number,tel,Y
+relationship,Relationship,dropdown,,Mother,Father,Brother,Sister,Grandparent,Friend,Other
+address1,Address Line 1,text,Y
+address2,Address Line 2,text,N
+city,City,text,Y
+state,State,dropdown,,AL,AK,AZ,AR,CA,CO,CT,DE,FL,GA,HI,ID,IL,IN,IA,KS,KY,LA,ME,MD,MA,MI,MN,MS,MO,MT,NE,NV,NH,NJ,NM,NY,NC,ND,OH,OK,OR,PA,RI,SC,SD,TN,TX,UT,VT,VA,WA,WV,WI,WY
+zipcode,Zipcode,number,Y
+email_preference,Do you want to receive emails?,dropdown,Yes,No
+notes,Notes,notes

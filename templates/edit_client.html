@@ -11,7 +11,7 @@
     <h3>ID Number: {{ID}}</h3>
     <br />
 
-    In the section below, please add any family members or friends who are involved in the {{info[0]}}'s care or who are interested in recieving informational emails.
+    In the section below, please add any family members or friends who are involved in {{info[0]}}'s care or who are interested in recieving informational emails.
     <br />
     <br />
 
@@ -25,17 +25,28 @@
     <button class="button-primary" onclick="window.location.href='/create-contact?ID={{ID}}&first_name={{info[0]}}'">Add Contact</button>
 
     <h2>{{info[0]}}'s Information</h2>
+    <i>Fields marked with <span style="color: #f3c96a">*</span> are mandatory.</i>
+    <br />
+    <br />
 
     <form action="/edit" method="POST">
         <input type="hidden" name="ID" value="{{ID}}">
+        {% set count = 0 %}
         {% for field in client_fields %}
+        {% set count = count + 1 %}
         {% if field[2] != "dropdown" %}
-        <label for="{{ field[0] }}">{{ field[1] }}</label><br>
-        <input type="{{ field[2] }}" id="{{ field[0] }}" name="{{ field[0] }}" value="{{ info[loop.index0] }}" required><br>
+            {% if field[3] == 'Y' %}
+                <label for="{{ field[0] }}">{{ field[1] }}<span style="color: #f3c96a">*</span></label><br>
+                <input type="{{ field[2] }}" id="{{ field[0] }}" name="{{ field[0] }}" value="{{ info[loop.index0] }}" required><br>
+            {% endif %}
+            {% if field[3] == 'N' %}
+                <label for="{{ field[0] }}">{{ field[1] }}</label><br>
+                <input type="{{ field[2] }}" id="{{ field[0] }}" name="{{ field[0] }}" value="{{ info[loop.index0] }}"><br>
+            {% endif %}
         {% endif %}
         {% if field[2] == "dropdown" %}
         {% set outer_index = loop.index0 %}
-        <label for="{{ field[0] }}">{{ field[1] }}:</label><br>
+        <label for="{{ field[0] }}">{{ field[1] }}<span style="color: #f3c96a">*</span></label><br>
         {% set is_value_in_dropdown = info[outer_index] in field[3:] %}
         <select name="{{ field[0] }}" id="{{ field[0] }}" onchange="checkOther(this, '{{ field[0] }}')">
             {% for i in range(field|length - 3) %}
@@ -45,12 +56,22 @@
             </option>
             {% endfor %}
         </select>
+        <br />  
+
         <input type="text" id="{{ field[0] }}_other" name="{{ field[0] }}_other"
                placeholder="Specify Other"
                style="display: {% if not is_value_in_dropdown %}block{% else %}none{% endif %};"
                value="{% if not is_value_in_dropdown %}{{ info[outer_index] }}{% endif %}">
         {% endif %}
         {% endfor %}
+        <br>
+        <p><label for="notes">Notes</label></p>
+
+        <textarea id="notes" name="notes" rows="4" cols="50">
+{{info[count - 1]}}
+        </textarea>
+        <br />
+        <br>
         <button class="button-primary" type="submit">Save Changes</button>
     </form>
 
