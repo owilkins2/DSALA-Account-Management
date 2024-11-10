@@ -41,7 +41,7 @@ def send_email(receiver_emails, subject, body):
         smtp_server = "smtp.gmail.com"
         smtp_port = 587 
         smtp_username = "dsala.acct.management@gmail.com"
-        smtp_password = "soyg gxxk pnhj rkac"
+        smtp_password = "phxi shmv jhqb aktp"
 
         msg = MIMEMultipart()
         msg["From"] = sender_email
@@ -129,6 +129,35 @@ def home():
 @app.route('/find-client')
 def find_client():
     return render_template('find_client.html')
+
+@app.route('/find_id', methods=['POST'])
+def find_id():
+    #get any id numbers
+    ids = []
+    email = request.form["email"]
+    print(email)
+    all_contacts = Contacts_Sheet.get_all_records()
+    for contact in all_contacts:
+        print(contact["Email"] + " " + str(contact["DS Client's ID"]))
+        if contact["Email"] == email and not (contact["DS Client's ID"] in ids):
+            ids.append(contact["DS Client's ID"])
+
+    all_clients = DS_Clients.get_all_records()
+    for client in all_clients:
+        if contact["Email"] == email and not (contact["ID"] in ids):
+            ids.append(contact["ID"])
+
+
+    #send email with id numbers
+    if len(ids) != 0:
+        body = "This email is associated with the following ID number(s):\n\n"
+        for idnum in ids:
+            body += str(idnum) + "\n"
+        send_email([email], "Your ID Number", body)
+    else:
+        print("no email sent")
+    return render_template('find_client.html')
+
 
 @app.route('/create-client')
 def create_client():

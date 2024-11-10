@@ -8,11 +8,30 @@
 </head>
 <body>
     <h1>Find Existing Client</h1>
+    <br />
+    Your account's ID number was sent to the email adresses associated with the client and their contacts as part of their creation confirmation message.
+    Enter it below to access your account.
+    <br />
+    <br />
+
     <form action="/entered_id" method="POST">
         <label for="ID">ID Number:</label><br>
         <input type="number" id="ID" name="ID" required><br>
 
         <button class="button-primary" type="submit">Submit</button>
     </form>
+
+    <br />
+    Can't find your ID Number? Enter your email below, if it is associated with any existing clients or contacts your ID number will be emailed to you.
+    <br />
+    <br />
+
+    <form action="/find_id" method="POST">
+        <label for="email">Email:</label><br>
+        <input type="email" id="email" name="email" required><br>
+
+        <button class="button-primary" type="submit">Submit</button>
+    </form>
+
 </body>
 </html>
