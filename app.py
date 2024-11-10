@@ -154,9 +154,10 @@ def find_id():
         for idnum in ids:
             body += str(idnum) + "\n"
         send_email([email], "Your ID Number", body)
+        return render_template('email_message_success.html')
     else:
         print("no email sent")
-    return render_template('find_client.html')
+        return render_template('email_message_failure.html')
 
 
 @app.route('/create-client')
@@ -333,6 +334,10 @@ def edit():
 def message_acknowledged():
     ID = request.form['ID']
     return render_template('edit_client.html', ID=ID, info=get_client_info(ID), contacts=get_contacts(ID), client_fields=get_client_fields())
+
+@app.route('/message_acknowledged_email', methods=['POST'])
+def message_acknowledged_email():
+    return render_template('find_client.html')
 
 
 @app.route('/edit-contact', methods=['POST'])

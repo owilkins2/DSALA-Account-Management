@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Management</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+
+</head>
+<body>
+
+    Your email is associated with an existing account. Check your email to find your ID number.
+
+    <form action="/message_acknowledged_email" method="POST">
+        <button class="button-primary" type="submit">OK</button>
+    </form>
+
+
+</body>
+</html>
