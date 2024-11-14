@@ -9,17 +9,15 @@
 <body>
     <h1>Manage {{info[0]}}'s Account</h1>
     <h3>ID Number: {{ID}}</h3>
-    
+
     <br />
-    In the section below, please add any family members or friends who are involved in {{info[0]}}'s care or who are interested in recieving informational emails.
+    In the Contacts section below, please add any family members or friends who are involved in {{info[0]}}'s care or who are interested in recieving informational emails. You can also edit {{info[0]}}'s information in the bottom section.
     <br />
     <br />
-    Done Editing?
-    <br />
+    <h3>Done Editing?</h3>
     <a href="https://www.dsala.org/ ">
-    <button class="button-secondary">To DSALA Main Site</button>
+        <button class="button-secondary">To DSALA Main Site</button>
     </a>
-    <br />
     <br />
 
     <h2>{{info[0]}}'s Contacts</h2>
@@ -42,14 +40,14 @@
         {% for field in client_fields %}
         {% set count = count + 1 %}
         {% if field[2] != "dropdown" %}
-            {% if field[3] == 'Y' %}
-                <label for="{{ field[0] }}">{{ field[1] }}<span style="color: #f3c96a">*</span></label><br>
-                <input type="{{ field[2] }}" id="{{ field[0] }}" name="{{ field[0] }}" value="{{ info[loop.index0] }}" required><br>
-            {% endif %}
-            {% if field[3] == 'N' %}
-                <label for="{{ field[0] }}">{{ field[1] }}</label><br>
-                <input type="{{ field[2] }}" id="{{ field[0] }}" name="{{ field[0] }}" value="{{ info[loop.index0] }}"><br>
-            {% endif %}
+        {% if field[3] == 'Y' %}
+        <label for="{{ field[0] }}">{{ field[1] }}<span style="color: #f3c96a">*</span></label><br>
+        <input type="{{ field[2] }}" id="{{ field[0] }}" name="{{ field[0] }}" value="{{ info[loop.index0] }}" required><br>
+        {% endif %}
+        {% if field[3] == 'N' %}
+        <label for="{{ field[0] }}">{{ field[1] }}</label><br>
+        <input type="{{ field[2] }}" id="{{ field[0] }}" name="{{ field[0] }}" value="{{ info[loop.index0] }}"><br>
+        {% endif %}
         {% endif %}
         {% if field[2] == "dropdown" %}
         {% set outer_index = loop.index0 %}
@@ -63,7 +61,7 @@
             </option>
             {% endfor %}
         </select>
-        <br />  
+        <br />
 
         <input type="text" id="{{ field[0] }}_other" name="{{ field[0] }}_other"
                placeholder="Specify Other"
