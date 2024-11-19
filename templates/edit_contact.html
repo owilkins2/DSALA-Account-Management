@@ -7,7 +7,15 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-    <h1>Edit {{info[0]}}'s Information</h1>
+
+    <header>
+        <div class="header-container">
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" class="logo">
+            <h1>Edit {{info[0]}}'s Information</h1>
+        </div>
+    </header>
+
+    
     <i>Fields marked with <span style="color: #f3c96a">*</span> are mandatory.</i>
     <br />
     <br />
@@ -21,15 +29,15 @@
         {% for field in contact_fields %}
         {% set count = count + 1 %}
         {% if field[2] != "dropdown" %}
-            
-            {% if field[3] == 'Y' %}
-                <label for="{{ field[0] }}">{{ field[1] }}<span style="color: #f3c96a">*</span></label><br>
-                <input type="{{ field[2] }}" id="{{ field[0] }}" name="{{ field[0] }}" value="{{ info[loop.index0] }}" required><br>
-            {% endif %}
-            {% if field[3] == 'N' %}
-                <label for="{{ field[0] }}">{{ field[1] }}</label><br>
-                <input type="{{ field[2] }}" id="{{ field[0] }}" name="{{ field[0] }}" value="{{ info[loop.index0] }}"><br>
-            {% endif %}
+
+        {% if field[3] == 'Y' %}
+        <label for="{{ field[0] }}">{{ field[1] }}<span style="color: #f3c96a">*</span></label><br>
+        <input type="{{ field[2] }}" id="{{ field[0] }}" name="{{ field[0] }}" value="{{ info[loop.index0] }}" required><br>
+        {% endif %}
+        {% if field[3] == 'N' %}
+        <label for="{{ field[0] }}">{{ field[1] }}</label><br>
+        <input type="{{ field[2] }}" id="{{ field[0] }}" name="{{ field[0] }}" value="{{ info[loop.index0] }}"><br>
+        {% endif %}
         {% endif %}
 
         {% if field[2] == "dropdown" %}

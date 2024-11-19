@@ -7,7 +7,14 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-    <h1>Create Contact for {{first_name}}</h1>
+
+    <header>
+        <div class="header-container">
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" class="logo">
+            <h1>Create Contact for {{first_name}}</h1>
+        </div>
+    </header>
+    
     <i>Fields marked with <span style="color: #f3c96a">*</span> are mandatory.</i>
     <br>
     <br>
@@ -17,14 +24,14 @@
 
         {% for field in contact_fields %}
         {% if field[2]!="dropdown" and field[2]!="notes"%}
-           {% if field[3] == 'Y' %}
-                <label for="{{ field[0] }}">{{ field[1] }}<span style="color: #f3c96a">*</span></label><br>
-                <input type="{{ field[2] }}" id="{{ field[0] }}" name="{{ field[0] }}" required><br>
-            {% endif %}
-            {% if field[3] == 'N' %}
-                <label for="{{ field[0] }}">{{ field[1] }}</label><br>
-                <input type="{{ field[2] }}" id="{{ field[0] }}" name="{{ field[0] }}"><br>
-            {% endif %}
+        {% if field[3] == 'Y' %}
+        <label for="{{ field[0] }}">{{ field[1] }}<span style="color: #f3c96a">*</span></label><br>
+        <input type="{{ field[2] }}" id="{{ field[0] }}" name="{{ field[0] }}" required><br>
+        {% endif %}
+        {% if field[3] == 'N' %}
+        <label for="{{ field[0] }}">{{ field[1] }}</label><br>
+        <input type="{{ field[2] }}" id="{{ field[0] }}" name="{{ field[0] }}"><br>
+        {% endif %}
         {% endif %}
 
         {% if field[2] == "dropdown" %}
@@ -53,8 +60,7 @@ Anything else you think we should know.
         <button class="button-primary" type="submit">Submit</button>
     </form>
 
-    <script>
-        function checkOther(selectElement, fieldName) {
+    <script>function checkOther(selectElement, fieldName) {
             var selectedValue = selectElement.value;
             var otherField = document.getElementById(fieldName + '_other');
 
@@ -69,7 +75,6 @@ Anything else you think we should know.
             dropdowns.forEach(function (dropdown) {
                 checkOther(dropdown, dropdown.id);
             });
-        };
-    </script>
+        };</script>
 </body>
 </html>

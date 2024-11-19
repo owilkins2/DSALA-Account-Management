@@ -7,7 +7,15 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-    <h1>Find Existing Client</h1>
+
+    <header>
+        <div class="header-container">
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" class="logo">
+            <h1>Find Existing Client</h1>
+        </div>
+    </header>
+
+    
     <br />
     Your account's ID number was sent to the email adresses associated with the client and their contacts as part of their creation confirmation message.
     Enter it below to access your account.

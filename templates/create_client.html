@@ -8,7 +8,13 @@
 </head>
 <body>
 
-    <h1>Create a New Client</h1>
+    <header>
+        <div class="header-container">
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" class="logo">
+            <h1>Create a New Client</h1>
+        </div>
+    </header>
+    
 
     Fill out all of the below fields with respect to the person who has down syndrome. You will be able to add information about yourself and other family
     members/connections later.
@@ -39,7 +45,7 @@
             <option value="{{ field[i+3] }}">{{ field[i+3] }}</option>
             {% endfor %}
         </select>
-        <br />  
+        <br />
 
         {# Show the "Other" input box if the value is unmatched #}
         <input type="text" id="{{ field[0] }}_other" name="{{ field[0] }}_other"
