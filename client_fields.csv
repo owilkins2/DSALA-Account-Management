@@ -5,7 +5,7 @@ preferred_name,Preferred Name,text,N
 email,Email,email,Y
 phone,Phone Number,tel,Y
 dob,Date of Birth,date,Y
-ethnicity,Ethnicity,dropdown,,American Indian or Alaska Native,Asian,Black or African American,Hispanic or Latino,Native Hawaiian or Other Pacific Islander,White,Other
+ethnicity,Ethnicity,dropdown,,American Indian or Alaska Native,Asian,Black or African American,Hispanic or Latino,Native Hawaiian or Other Pacific Islander,White,Two of More Races,Other
 gender,Gender,dropdown,,Male,Female,Other
 preferred_language,Preferred Language,dropdown,,English,Spanish,Other
 address1,Address Line 1,text,Y
