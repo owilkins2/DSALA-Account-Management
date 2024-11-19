@@ -84,7 +84,7 @@ def get_contacts(ID):
         print(int(contact['Index']))
     for contact in all_contacts:
         if int(contact["DS Client's ID"]) - int(ID) == 0:
-            contacts.append([contact['Index'], contact['First Name'], contact['Last Name'], contact['Relationship']])
+            contacts.append([contact['Index'], contact['First Name'], contact['Last Name'], contact['Your Relationship to the Client']])
             print("hello")
     return contacts
 
