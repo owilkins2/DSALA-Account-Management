@@ -2,7 +2,7 @@ first_name,First Name,text,Y
 last_name,Last Name,text,Y
 email,Email,email,Y
 phone,Phone Number,tel,Y
-relationship,Relationship,dropdown,,Mother,Father,Brother,Sister,Grandparent,Friend,Other
+relationship,Your Relationship to the Client,dropdown,,Mother,Father,Brother,Sister,Grandparent,Friend,Other
 address1,Address Line 1,text,Y
 address2,Address Line 2,text,N
 city,City,text,Y
