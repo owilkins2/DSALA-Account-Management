@@ -144,8 +144,8 @@ def find_id():
 
     all_clients = DS_Clients.get_all_records()
     for client in all_clients:
-        if contact["Email"] == email and not (contact["ID"] in ids):
-            ids.append(contact["ID"])
+        if client["Email"] == email and not (client["ID"] in ids):
+            ids.append(client["ID"])
 
 
     #send email with id numbers
